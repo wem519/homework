@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+
+        <title>향수 쇼핑</title>
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Oswald', sans-serif;
+            }
+
+            .perfume {
+                width: 500px;
+                height: 400px;
+                margin: auto;
+                margin-top: 30px;
+                background-image: url("https://i.pinimg.com/originals/65/4d/f5/654df520a07e0c0dc90f52e8d9a79ccb.jpg");
+                background-position: center;
+                background-size: cover;
+            }
+
+            .price {
+                font-size: 15px;
+            }
+
+            .desc {
+                width: 500px;
+                margin-top: 20px;
+                margin-bottom: 10px;
+            }
+
+            .mybtn {
+                width: 100px;
+                margin: auto;
+                display: block;
+            }
+
+            .wrap {
+                margin: auto;
+                width: 500px;
+            }
+
+            .warning {
+                color: red;
+                text-align: center;
+                margin: auto;
+            }
+
+            .rate {
+                color: blue;
+            }
+        </style>
+        <script>
+            $(document).ready(function () {
+                 $.ajax({
+                     type: "GET",
+                     url: "https://api.manana.kr/exchange/rate.json",
+                     data: {},
+                     success: function (response) {
+                         let Rate = (response[1]['rate']);
+                         $('#rate-box').text(Rate)
+                     }
+                 })
+            });
+
+            function order() {
+                let name = $('#input-name').val();
+                let count = $('#input-number').val();
+                let address = $('#input-address').val();
+                let phone = $('#input-phone').val();
+
+                if (name == '') {
+                    alert('이름을 입력하세요');
+                } else if (count == '--수량을 선택하세요--') {
+                    alert('수량을 입력하세요');
+                } else if (address == '') {
+                    alert('주소를 입력하세요');
+                } else if (phone == '') {
+                    alert('전화번호를 입력하세요');
+                } else {
+                    alert('주문이 완료되었습니다')
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="wrap">
+            <div class="perfume"></div>
+            <div class="desc">
+                <h1>향수를 팝니다 <span class="price">가격:30,000원/개(기본), 추가향:10,000/개) </span></h1>
+                <p>기본 향에 개인이 원하는 향을 추가로 커스텀 가능한 향수입니다.</p>
+                <p class="warning">*향 추가에 따른 별도 요금 발생* </p>
+
+                <p class="rate">달러-원 환율: <span id="rate-box">1,000</span></p>
+            </div>
+            <div class="order-group">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">주문자이름</span>
+                    </div>
+                    <input id="input-name" type="text" class="form-control" aria-label="Default"
+                           aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">수량</label>
+                    </div>
+                    <select id="input-number" class="custom-select">
+                        <option selected>--수량을 선택하세요--</option>
+                        <option value="1">기본향</option>
+                        <option value="2">추가1(+10000)</option>
+                        <option value="3">추가2(+20000)</option>
+                        <option value="4">추가3(+30000)</option>
+                        <option value="5">추가4(+40000)</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+                    </div>
+                    <input id="input-address" type="text" class="form-control" aria-label="Default"
+                           aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
+                    </div>
+                    <input id="input-phone" type="text" class="form-control" aria-label="Default"
+                           aria-describedby="inputGroup-sizing-default">
+                </div>
+                <button onclick="order()" type="button" class="btn btn-primary mybtn">주문하기</button>
+            </div>
+        </div>
+    </body>
+
+</html>
